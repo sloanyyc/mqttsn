@@ -6,7 +6,7 @@
 
 #include "mqttsn_defines.h"
 #include "mqttsn_transport.h"
-#include <lite_fifo.h>
+#include "lite_fifo.h"
 
 /* enough to buffer 8 messages for each dummy */
 #define MQTTSN_TRANSPORT_DUMMY_QUEUED_MSGS      8
@@ -14,9 +14,9 @@
 class MQTTSNTransportDummy : public MQTTSNTransport {
     public:
         MQTTSNTransportDummy(uint8_t addr);
-        virtual uint8_t write_packet(const void * data, uint8_t data_len, MQTTSNAddress * dest);
-        virtual int16_t read_packet(void * data, uint8_t data_len, MQTTSNAddress * src);
-        virtual uint8_t broadcast(const void * data, uint8_t data_len);
+        virtual uint16_t write_packet(const void * data, uint16_t data_len, MQTTSNAddress * dest);
+        virtual int32_t read_packet(void * data, uint16_t data_len, MQTTSNAddress * src);
+        virtual uint16_t broadcast(const void * data, uint16_t data_len);
     
     private:
         uint8_t address;

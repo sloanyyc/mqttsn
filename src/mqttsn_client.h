@@ -48,7 +48,7 @@ typedef struct {
 } MQTTSNSubTopic;
 
 /* template for publish message handler */
-typedef void (*MQTTSNPublishCallback)(const char * topic, uint8_t * data, uint8_t len, MQTTSNFlags * flags);
+typedef void (*MQTTSNPublishCallback)(const char * topic, uint8_t * data, uint16_t len, MQTTSNFlags * flags);
 
 class MQTTSNClient {
     public:
@@ -78,7 +78,7 @@ class MQTTSNClient {
     bool register_topics(MQTTSNPubTopic * topics, uint16_t len);
     
     /* Publish data to a topic, returns true if the message was sent */
-    bool publish(const char * topic, uint8_t * data, uint8_t len, MQTTSNFlags * flags = NULL);
+    bool publish(const char * topic, uint8_t * data, uint16_t len, MQTTSNFlags * flags = NULL);
     
     /* Subscribe to a list of topics with the gateway,
      * returns true if all topics in the list have been subscribed to */
@@ -128,7 +128,7 @@ class MQTTSNClient {
     void handle_gwinfo(uint8_t * data, uint8_t data_len, MQTTSNAddress * src);
     void handle_connack(uint8_t * data, uint8_t data_len, MQTTSNAddress * src);
     void handle_regack(uint8_t * data, uint8_t data_len, MQTTSNAddress * src);
-    void handle_publish(uint8_t * data, uint8_t data_len, MQTTSNAddress * src);
+    void handle_publish(uint8_t * data, uint16_t data_len, MQTTSNAddress * src);
     void handle_suback(uint8_t * data, uint8_t data_len, MQTTSNAddress * src);
     void handle_unsuback(uint8_t * data, uint8_t data_len, MQTTSNAddress * src);
     void handle_pingresp(uint8_t * data, uint8_t data_len, MQTTSNAddress * src);

@@ -6,7 +6,7 @@
 #if !defined(MQTTSN_EXCLUDE_TRANSPORT_DUMMY)
 
 #include "mqttsn_transport_dummy.h"
-#include <lite_fifo.h>
+#include "lite_fifo.h"
 #include <string.h>
 
 MQTTSNTransportDummy * MQTTSNTransportDummy::dummies[MQTTSN_MAX_DUMMY_TRANSPORTS] = {NULL};
@@ -27,7 +27,7 @@ MQTTSNTransportDummy::MQTTSNTransportDummy(uint8_t addr) :
 /* Format is: {1-byte address}{MQTTSN message payload} 
  * First byte of an MQTTSN message is always the length, so we use that */
  
-uint8_t MQTTSNTransportDummy::write_packet(const void * data, uint8_t data_len, MQTTSNAddress * dest)
+uint16_t MQTTSNTransportDummy::write_packet(const void * data, uint16_t data_len, MQTTSNAddress * dest)
 {
     /* address should be just one byte in size */
     if (dest->len != 1 || data_len > MQTTSN_MAX_MSG_LEN) 
@@ -49,7 +49,7 @@ uint8_t MQTTSNTransportDummy::write_packet(const void * data, uint8_t data_len, 
     return 0;
 }
 
-int16_t MQTTSNTransportDummy::read_packet(void * data, uint8_t data_len, MQTTSNAddress * src)
+int32_t MQTTSNTransportDummy::read_packet(void * data, uint16_t data_len, MQTTSNAddress * src)
 {
     /* at least 1 byte capacity */
     if (MQTTSN_MAX_ADDR_LEN == 0) return 0;
@@ -75,7 +75,7 @@ int16_t MQTTSNTransportDummy::read_packet(void * data, uint8_t data_len, MQTTSNA
     return real_len;
 }
 
-uint8_t MQTTSNTransportDummy::broadcast(const void * data, uint8_t data_len)
+uint16_t MQTTSNTransportDummy::broadcast(const void * data, uint16_t data_len)
 {
     if (data_len > MQTTSN_MAX_MSG_LEN) 
         return 0;

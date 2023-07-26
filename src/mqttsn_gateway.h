@@ -7,7 +7,7 @@
 #include "mqttsn_defines.h"
 #include "mqttsn_messages.h"
 #include "mqttsn_transport.h"
-#include <lite_fifo.h>
+#include "lite_fifo.h"
 #include <stdint.h>
 
 typedef struct {
@@ -141,7 +141,7 @@ class MQTTSNGateway {
     void handle_searchgw(uint8_t * data, uint8_t data_len, MQTTSNTransport * transport, MQTTSNAddress * src);
     void handle_connect(uint8_t * data, uint8_t data_len, MQTTSNTransport * transport, MQTTSNAddress * src);
     void handle_register(uint8_t * data, uint8_t data_len, MQTTSNTransport * transport, MQTTSNAddress * src);
-    void handle_publish(uint8_t * data, uint8_t data_len, MQTTSNTransport * transport, MQTTSNAddress * src);
+    void handle_publish(uint8_t * data, uint16_t data_len, MQTTSNTransport * transport, MQTTSNAddress * src);
     void handle_subscribe(uint8_t * data, uint8_t data_len, MQTTSNTransport * transport, MQTTSNAddress * src);
     void handle_unsubscribe(uint8_t * data, uint8_t data_len, MQTTSNTransport * transport, MQTTSNAddress * src);
     void handle_pingreq(uint8_t * data, uint8_t data_len, MQTTSNTransport * transport, MQTTSNAddress * src);
@@ -149,7 +149,7 @@ class MQTTSNGateway {
     
     /* MQTT event handlers */
     static void handle_mqtt_connect(void * which, bool conn_state);
-    static void handle_mqtt_publish(void * which, const char * topic, uint8_t * payload, uint8_t length, MQTTSNFlags * flags);
+    static void handle_mqtt_publish(void * which, const char * topic, uint8_t * payload, uint16_t length, MQTTSNFlags * flags);
     
     /* prepended to every MQTTSN client topic, except those that begin with a $ */
     char topic_prefix[MQTTSN_MAX_TOPICPREFIX_LEN + 1];

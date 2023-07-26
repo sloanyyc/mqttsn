@@ -58,7 +58,7 @@ void MQTTSNClient::assign_handlers(void)
     msg_handlers[MQTTSN_REGACK] = &MQTTSNClient::handle_regack;
     msg_handlers[MQTTSN_SUBACK] = &MQTTSNClient::handle_suback;
     msg_handlers[MQTTSN_UNSUBACK] = &MQTTSNClient::handle_unsuback;
-    msg_handlers[MQTTSN_PUBLISH] = &MQTTSNClient::handle_publish;
+    // msg_handlers[MQTTSN_PUBLISH] = &MQTTSNClient::handle_publish;
     msg_handlers[MQTTSN_PINGRESP] = &MQTTSNClient::handle_pingresp;
     msg_handlers[MQTTSN_DISCONNECT] = &MQTTSNClient::handle_disconnect;
     
@@ -259,7 +259,7 @@ void MQTTSNClient::register_(MQTTSNPubTopic * topic)
     curr_msg_id++;
 }
 
-bool MQTTSNClient::publish(const char * topic, uint8_t * data, uint8_t len, MQTTSNFlags * flags)
+bool MQTTSNClient::publish(const char * topic, uint8_t * data, uint16_t len, MQTTSNFlags * flags)
 {
 	MQTTSN_INFO_PRINTLN("Sending PUBLISH.");
     /* if we're not connected */
@@ -802,7 +802,7 @@ void MQTTSNClient::handle_regack(uint8_t * data, uint8_t data_len, MQTTSNAddress
     last_in = device->get_millis();
 }
 
-void MQTTSNClient::handle_publish(uint8_t * data, uint8_t data_len, MQTTSNAddress * src)
+void MQTTSNClient::handle_publish(uint8_t * data, uint16_t data_len, MQTTSNAddress * src)
 {
 	MQTTSN_INFO_PRINTLN("Got PUBLISH.");
 

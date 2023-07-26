@@ -20,13 +20,13 @@ class MQTTSNTransport {
     public:
         
         /* return how many bytes were written, 0 if any error occurred */
-        virtual uint8_t write_packet(const void * data, uint8_t data_len, MQTTSNAddress * dest) = 0;
+        virtual uint16_t write_packet(const void * data, uint16_t data_len, MQTTSNAddress * dest) = 0;
         
         /* return -1 if there's nothing to read, 0 for too-long msgs, otherwise the payload length */
-        virtual int16_t read_packet(void * data, uint8_t data_len, MQTTSNAddress * src) = 0;
+        virtual int32_t read_packet(void * data, uint16_t data_len, MQTTSNAddress * src) = 0;
         
         /* return how many bytes were written, 0 if any error occurred */
-        virtual uint8_t broadcast(const void * data, uint8_t data_len) = 0;
+        virtual uint16_t broadcast(const void * data, uint16_t data_len) = 0;
         
 };
 

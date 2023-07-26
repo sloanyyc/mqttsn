@@ -8,7 +8,7 @@
 #include "mqttsn_transport.h"
 #include "mqttx_client.h"
 
-#include <lite_fifo.h>
+#include "lite_fifo.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -195,6 +195,7 @@ bool MQTTSNGateway::begin(uint8_t gw_id)
         mqtt_client->register_callbacks(this, MQTTSNGateway::handle_mqtt_connect, MQTTSNGateway::handle_mqtt_publish);
     }
     assign_msg_handlers();
+    return true;
 }
 
 bool MQTTSNGateway::register_transport(MQTTSNTransport * transport)
@@ -236,7 +237,7 @@ void MQTTSNGateway::assign_msg_handlers(void)
     msg_handlers[MQTTSN_SEARCHGW] = &MQTTSNGateway::handle_searchgw;
     msg_handlers[MQTTSN_CONNECT] = &MQTTSNGateway::handle_connect;
     msg_handlers[MQTTSN_REGISTER] = &MQTTSNGateway::handle_register;
-    msg_handlers[MQTTSN_PUBLISH] = &MQTTSNGateway::handle_publish;
+    // msg_handlers[MQTTSN_PUBLISH] = &MQTTSNGateway::handle_publish;
     msg_handlers[MQTTSN_SUBSCRIBE] = &MQTTSNGateway::handle_subscribe;
     msg_handlers[MQTTSN_UNSUBSCRIBE] = &MQTTSNGateway::handle_unsubscribe;
     msg_handlers[MQTTSN_PINGREQ] = &MQTTSNGateway::handle_pingreq;
@@ -618,7 +619,7 @@ void MQTTSNGateway::handle_register(uint8_t * data, uint8_t data_len, MQTTSNTran
     MQTTSN_INFO_PRINTLN("REGACK sent.\r\n");
 }
 
-void MQTTSNGateway::handle_publish(uint8_t * data, uint8_t data_len, MQTTSNTransport * transport, MQTTSNAddress * src)
+void MQTTSNGateway::handle_publish(uint8_t * data, uint16_t data_len, MQTTSNTransport * transport, MQTTSNAddress * src)
 {
     MQTTSN_INFO_PRINTLN("Got PUBLISH.");
     
@@ -869,7 +870,7 @@ void MQTTSNGateway::handle_mqtt_connect(void * which, bool conn_state)
     MQTTSN_INFO_PRINT("\r\n");
 }
 
-void MQTTSNGateway::handle_mqtt_publish(void * which, const char * topic, uint8_t * payload, uint8_t length, MQTTSNFlags * flags)
+void MQTTSNGateway::handle_mqtt_publish(void * which, const char * topic, uint8_t * payload, uint16_t length, MQTTSNFlags * flags)
 {
     MQTTSNGateway * self = static_cast<MQTTSNGateway*>(which);
     
